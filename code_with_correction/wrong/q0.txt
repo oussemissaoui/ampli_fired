@@ -1,0 +1,4 @@
+intt main(
+{
+printf(hello world"):
+}

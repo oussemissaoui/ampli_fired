@@ -160,7 +160,7 @@ void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt)
     else{
         if ((hero->direction == 1 || hero->direction == -1))
         {
-            if ((I.right == 1 && I.left==0 && hero->heroPos.x<750)||B.camera.x >= 10000 -1500)
+            if ((I.right == 1 && I.left==0 && hero->heroPos.x<500)||B.camera.x >= 10000 -1500)
             {
 
                 hero->xStep = 0.5 * hero->velocity * dt * dt + hero->speed * dt;
@@ -186,7 +186,7 @@ void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt)
 
             }
 
-            else if ((I.left == 1 && I.right ==0 && hero->heroPos.x>750)||(B.camera.x == 0) && (hero->heroPos.x> 0))
+            else if ((I.left == 1 && I.right ==0 && hero->heroPos.x>500)||(B.camera.x == 0) && (hero->heroPos.x> 0))
             {
                 hero->xStep = 0.5 * hero->velocity * dt * dt + hero->speed * dt;
                 if(hero->xStep >6)

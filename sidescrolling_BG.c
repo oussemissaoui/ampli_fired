@@ -130,7 +130,7 @@ void SD_scrolling(Background *B, SDL_Rect posPerso, int direction)
   const int speed = +6;
   if (direction == 1)
   {
-    if (( B->camera.x <10000 - B->camera.w)  &&(posPerso.x >= 750))
+    if (( B->camera.x <10000 - B->camera.w)  &&(posPerso.x >= 500))
     {
       B->camera.x += speed;
     }

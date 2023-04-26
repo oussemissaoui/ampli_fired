@@ -243,8 +243,8 @@ while(run==1)
 				initBack(&map);
 				initMask(&mask);
 				initPerso(&perso);
-				
 				screen_num=1;
+				Mix_HaltMusic();
 			break;}
 		}
 		if(mouseinter(screen,33,10,42,26)==1||mouseinter(screen,27,21,34,31)==1)

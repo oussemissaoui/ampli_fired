@@ -111,6 +111,17 @@ init_loading_img(loading,load_num);
                 printf("Unable init Music %s",Mix_GetError());
             }
 //end init
+
+//animation
+liste trailer=NULL;
+
+
+
+//end animation
+
+
+
+
 //allocation dynamique
 	for(i=0; i<bg_num; i++) {
 	    extra[i] = (image*)malloc(sizeof(image));

@@ -116,7 +116,7 @@ init_loading_img(loading,load_num);
 liste trailer=NULL;
 
 
-
+aze
 //end animation
 
 

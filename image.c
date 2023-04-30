@@ -118,18 +118,7 @@
             
         }
     }
-    void init_clk_eff_img(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load)
-    {
-        int count=0;
-        for (int j=0;j<nb_img;j++)
-        {
-            sprintf(i[j]->url,"loading_img/clk_eff/%d.png",j);
-            i[j]->img=IMG_Load(i[j]->url);
-            SDL_BlitSurface(load[count]->scaled,NULL,s,NULL);
-            count = (count+1)% num_load;
-            SDL_Flip(s);       
-        }
-    }
+
     void init_start_tv_eff(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load)
     {
         int count=0;

@@ -20,7 +20,7 @@ int main()
     //init ALL variable
          //init  image number (backgound , loading etc ):   
              int bg_num=30,load_num=6,start_num=6,set_num=3,ext_num=3,extra_num=1,computer_img_num=40;
-             int eff_set_num=4,mus_eff_num=13,sfx_eff_num=13,clk_eff_num=2,tv_eff_num=288,choice_num=3;
+             int eff_set_num=4,mus_eff_num=13,sfx_eff_num=13,tv_eff_num=288,choice_num=3;
     int run=1,screen_num=0,last_screen=0;
 
 
@@ -80,7 +80,7 @@ int main()
     int i; //declaration des variable pour les boucle
 	
     image *loading[load_num],*bg[bg_num],*start[start_num],*setting[set_num],*exit[ext_num];
-    image *eff_set[eff_set_num],*mus_eff[mus_eff_num],*sfx_eff[sfx_eff_num],*clk_eff[clk_eff_num],*extra[extra_num],*exit_yes_no[choice_num];
+    image *eff_set[eff_set_num],*mus_eff[mus_eff_num],*sfx_eff[sfx_eff_num],*extra[extra_num],*exit_yes_no[choice_num];
 	background map,mask;
 	
 	
@@ -113,10 +113,10 @@ init_loading_img(loading,load_num);
 //end init
 
 //animation
-liste trailer=NULL;
+
+add_blit_delete(screen);
 
 
-aze
 //end animation
 
 
@@ -155,10 +155,7 @@ aze
 	    sfx_eff[i] = (image*)malloc(sizeof(image));
 	    sfx_eff[i]->url = (char*)malloc(sizeof(char) * 30);
 	}
-	for(i=0; i<clk_eff_num; i++) {
-	    clk_eff[i] = (image*)malloc(sizeof(image));
-	    clk_eff[i]->url = (char*)malloc(sizeof(char) * 30);
-	}
+
 	/*for(i=0; i<tv_eff_num; i++) {
 	    tv_eff[i] = (image*)malloc(sizeof(image));
 	    tv_eff[i]->url = (char*)malloc(sizeof(char) * 30);
@@ -176,7 +173,7 @@ aze
 	init_effect_set_img(screen,eff_set,eff_set_num,loading,load_num);
 	init_mus_eff_img(screen,mus_eff,mus_eff_num,loading,load_num);
 	init_sfx_eff_img(screen,sfx_eff,sfx_eff_num,loading,load_num);
-	init_clk_eff_img(screen,clk_eff,clk_eff_num,loading,load_num);
+
 	//init_start_tv_eff(screen,tv_eff,tv_eff_num,loading,load_num);
 	liste l=init_start_tv(tv_eff_num,screen,loading,load_num); //replaced table load by LSC load 
 	
@@ -1082,12 +1079,7 @@ for (i = 0; i < sfx_eff_num; i++) {
     free(sfx_eff[i]);
 }
 
-for (i = 0; i < clk_eff_num; i++) {
-    free(clk_eff[i]->url);
-    SDL_FreeSurface(clk_eff[i]->img);
-    SDL_FreeSurface(clk_eff[i]->scaled);
-    free(clk_eff[i]);
-}
+
 
 /*for (i = 0; i < tv_eff_num; i++) {
     free(tv_eff[i]->url);

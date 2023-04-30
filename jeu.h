@@ -36,7 +36,7 @@ void resize_1image(SDL_Surface *s,image *a[],int nb_imga);
     void init_effect_set_img(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load);
     void init_mus_eff_img(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load);
     void init_sfx_eff_img(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load);
-    void init_clk_eff_img(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load);
+
     void init_start_tv_eff(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load);
     void init_extra(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load);
     void init_choice_exit(SDL_Surface *s,image *i[],int nb_img,image *load[],int num_load);
@@ -57,6 +57,7 @@ liste init_start_tv(int nb_img,SDL_Surface *s,image *load[],int num_load);
 liste ajouter_Fin(liste l, int val);
 void parcourir(liste l,SDL_Surface* screen);
 void parcourir_with_Delay(liste l,SDL_Surface* screen,int Delay);
+void add_blit_delete(SDL_Surface *screen);
 
 
 #endif // JEU_H_INCLUDED

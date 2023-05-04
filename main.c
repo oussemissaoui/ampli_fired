@@ -285,11 +285,6 @@ while(run==1)
                     break;
 				/*case SDL_MOUSEBUTTONDOWN : if(mouseinter(screen,4,32,21,68)==1&&e.button.button==SDL_BUTTON_LEFT){clickwindow.x=mousex-25;clickwindow.y=mousey-25;Mix_PlayChannel(-1,knock,0);aff_oneimg_loop(screen,click,70,clickwindow);}
 					break;*/
-				  
- 				case SDL_MOUSEMOTION:
-		    	 m=TTF_RenderText_Blended(chrono,"Copyright © 2023 Meem entertainment. All rights reserved.",chronocolor);
- 					break;
-
 		}}
         break; // first case 
 //endcase0

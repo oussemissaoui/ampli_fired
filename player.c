@@ -10,7 +10,7 @@
     @return 0 if the program exits successfully, or a non-zero error code if an error occurs.
     @dependencies This program requires the SDL, SDL_image, SDL_ttf, and SDL_mixer libraries to be installed on the system.
     */
-
+#include "player.h"
 /**
 
     @brief Initializes a "personne" struct with default values.

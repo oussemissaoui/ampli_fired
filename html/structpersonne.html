@@ -67,20 +67,80 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>struct for player character  
+<p>struct for personne  
  <a href="structpersonne.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="player_8h_source.html">player.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a508059e3e946029f6e874e0bab4761e6"><td class="memItemLeft" align="right" valign="top"><a id="a508059e3e946029f6e874e0bab4761e6"></a>
-char&#160;</td><td class="memItemRight" valign="bottom"><b>url</b></td></tr>
-<tr class="separator:a508059e3e946029f6e874e0bab4761e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae493e76c6dc5c7f70b894603512fb15d"><td class="memItemLeft" align="right" valign="top"><a id="ae493e76c6dc5c7f70b894603512fb15d"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>url</b></td></tr>
+<tr class="separator:ae493e76c6dc5c7f70b894603512fb15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14212b62d40a02ce7c3dc64c46dc66f1"><td class="memItemLeft" align="right" valign="top">SDL_Surface *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpersonne.html#a14212b62d40a02ce7c3dc64c46dc66f1">img</a></td></tr>
+<tr class="separator:a14212b62d40a02ce7c3dc64c46dc66f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c98e4e0e06df0db226e9f82badf010f"><td class="memItemLeft" align="right" valign="top"><a id="a5c98e4e0e06df0db226e9f82badf010f"></a>
+SDL_Rect&#160;</td><td class="memItemRight" valign="bottom"><b>pos_image_aff</b></td></tr>
+<tr class="separator:a5c98e4e0e06df0db226e9f82badf010f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e9bc59179dbb260c527948c9e71951"><td class="memItemLeft" align="right" valign="top"><a id="ad8e9bc59179dbb260c527948c9e71951"></a>
+SDL_Rect&#160;</td><td class="memItemRight" valign="bottom"><b>pos_image_init</b></td></tr>
+<tr class="separator:ad8e9bc59179dbb260c527948c9e71951"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b31985baf500058264d2b58d2a61e15"><td class="memItemLeft" align="right" valign="top"><a id="a6b31985baf500058264d2b58d2a61e15"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nb_vie</b></td></tr>
+<tr class="separator:a6b31985baf500058264d2b58d2a61e15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64b1e8852230118b821bb0f0c72f2932"><td class="memItemLeft" align="right" valign="top"><a id="a64b1e8852230118b821bb0f0c72f2932"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>direction_axe_x</b></td></tr>
+<tr class="separator:a64b1e8852230118b821bb0f0c72f2932"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad45ce2922700ed586bcd64b8f36f880f"><td class="memItemLeft" align="right" valign="top"><a id="ad45ce2922700ed586bcd64b8f36f880f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>direction_axe_y</b></td></tr>
+<tr class="separator:ad45ce2922700ed586bcd64b8f36f880f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d401727759389cfa28999d8dccf7ee4"><td class="memItemLeft" align="right" valign="top"><a id="a0d401727759389cfa28999d8dccf7ee4"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>last_direction</b></td></tr>
+<tr class="separator:a0d401727759389cfa28999d8dccf7ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e8eecbc05b657ec3bea3f95c80522d7"><td class="memItemLeft" align="right" valign="top"><a id="a7e8eecbc05b657ec3bea3f95c80522d7"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>move</b></td></tr>
+<tr class="separator:a7e8eecbc05b657ec3bea3f95c80522d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61f08b2917dba9c10d37263183b44968"><td class="memItemLeft" align="right" valign="top"><a id="a61f08b2917dba9c10d37263183b44968"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>col</b></td></tr>
+<tr class="separator:a61f08b2917dba9c10d37263183b44968"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72e8ac367b2b21b2383fad417e657b6d"><td class="memItemLeft" align="right" valign="top"><a id="a72e8ac367b2b21b2383fad417e657b6d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>frame</b></td></tr>
+<tr class="separator:a72e8ac367b2b21b2383fad417e657b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af03856f5797941cdf878bd3c6327914f"><td class="memItemLeft" align="right" valign="top"><a id="af03856f5797941cdf878bd3c6327914f"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>speed</b></td></tr>
+<tr class="separator:af03856f5797941cdf878bd3c6327914f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4353fe069d3a4a2c571600ff8cfc4c1"><td class="memItemLeft" align="right" valign="top"><a id="ae4353fe069d3a4a2c571600ff8cfc4c1"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>colright</b></td></tr>
+<tr class="separator:ae4353fe069d3a4a2c571600ff8cfc4c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a839d7536d87645f18eae2d079f0d21"><td class="memItemLeft" align="right" valign="top"><a id="a9a839d7536d87645f18eae2d079f0d21"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>colleft</b></td></tr>
+<tr class="separator:a9a839d7536d87645f18eae2d079f0d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a882ac936929f44f710841cf1cb91d162"><td class="memItemLeft" align="right" valign="top"><a id="a882ac936929f44f710841cf1cb91d162"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>coldown</b></td></tr>
+<tr class="separator:a882ac936929f44f710841cf1cb91d162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a412b7b56869fb09b4176fa3ae12c8d"><td class="memItemLeft" align="right" valign="top"><a id="a5a412b7b56869fb09b4176fa3ae12c8d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>colup</b></td></tr>
+<tr class="separator:a5a412b7b56869fb09b4176fa3ae12c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>struct for player character </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<div class="textblock"><p>struct for personne </p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a14212b62d40a02ce7c3dc64c46dc66f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14212b62d40a02ce7c3dc64c46dc66f1">&#9670;&nbsp;</a></span>img</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SDL_Surface* personne::img</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Surface. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="player_8h_source.html">player.h</a></li>
 </ul>
 </div><!-- contents -->

@@ -3,27 +3,31 @@
 
 
 
-typedef struct
-{
-    char *url;
-    SDL_Surface *img;
-    SDL_Rect pos_image_aff,pos_image_init;
-    int nb_vie;
-    int direction_axe_x; // 0:no move 1: right  -1:left
-    int direction_axe_y; // 0:no move 1: down  -1:up
-    
-    int last_direction;
-   
+/**
 
-    int move;
-    int col;
-    int frame;
-    float speed;
-    int colright,colleft,coldown,colup;
-
-
-
-}personne;
+    @struct personne
+    @brief struct for player character
+    */
+    struct personne
+    {
+    char url; /!< URL of player image. /
+    SDL_Surface img; /!< Surface of player image. /
+    SDL_Rect pos_image_aff; /!< Rectangle for displaying player image. /
+    SDL_Rect pos_image_init; /!< Initial rectangle for player image. /
+    int nb_vie; /!< Number of lives of the player. /
+    int direction_axe_x; /!< X-axis movement direction of the player. 0: no move, 1: right, -1: left. /
+    int direction_axe_y; /!< Y-axis movement direction of the player. 0: no move, 1: down, -1: up. /
+    int last_direction; /!< Last direction of movement for the player. /
+    int move; /!< Movement state of the player. /
+    int col; /!< Collision state of the player. /
+    int frame; /!< Frame of animation for the player. /
+    float speed; /!< Movement speed of the player. /
+    int colright; /!< Collision state on the right side of the player. /
+    int colleft; /!< Collision state on the left side of the player. /
+    int cooldown; /!< Cooldown state of the player. /
+    int colup; /!< Collision state on the upper side of the player. */
+    };
+    typedef struct personne personne;
 
 
 

@@ -1,3 +1,16 @@
+/**
+
+    @file main.c
+    @brief This program is a TOP-view && side-scrolling game developed using the SDL library in C.
+    The game features a player character that can move left and right, jump, and interact with various objects in the game world.
+    @author Pegasus Team
+    @version 1.0
+    @date mai 01, 2023
+    @details This file contains the main function for the game program.
+    @return 0 if the program exits successfully, or a non-zero error code if an error occurs.
+    @dependencies This program requires the SDL, SDL_image, SDL_ttf, and SDL_mixer libraries to be installed on the system.
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>

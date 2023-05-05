@@ -1,5 +1,22 @@
+/**
 
+    @file player.c
+    @brief This program is a TOP-view and side-scrolling game developed using the SDL library in C.
+    The game features a player character that can move left and right, jump, and interact with various objects in the game world.
+    @author Pegasus Team
+    @version 1.0
+    @date May 01, 2023
+    @details This file contains functions and data structures for the player character in the game.
+    @return 0 if the program exits successfully, or a non-zero error code if an error occurs.
+    @dependencies This program requires the SDL, SDL_image, SDL_ttf, and SDL_mixer libraries to be installed on the system.
+    */
 
+/**
+
+    @brief Initializes a "personne" struct with default values.
+
+    @param p Pointer to the "personne" struct to be initialized.
+    */
 void initPerso(personne *p)
 {
      p->url="loading_img/player/SPRITESHEET WALK1.png";
@@ -27,10 +44,25 @@ void initPerso(personne *p)
 
 }
 
+/**
+
+    @brief Renders the player on the screen.
+    This function uses the SDL library to render the player on the screen.
+    @param p A pointer to the person struct that holds the information about the player.
+    @param screen A pointer to the SDL surface representing the screen.
+    @return void.
+    */
 void afficherPerso(personne p, SDL_Surface * screen)
 {
     SDL_BlitSurface(p.img,&p.pos_image_aff ,screen,&p.pos_image_init);
 }
+
+/**
+
+    @brief Moves a given person object based on its current speed and direction
+
+    @param p Pointer to the person object to move
+    */
 void movePerso (personne *p)
 {
     Uint32 locate;
@@ -151,6 +183,14 @@ void movePerso (personne *p)
     }
 
 }
+
+/**
+
+
+@brief Updates the animation frame of a given player object based on its current movement direction and speed
+
+@param player Pointer to the player object to update
+*/
 
 void animerPerso (personne* p)
 {

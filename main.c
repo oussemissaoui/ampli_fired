@@ -948,7 +948,6 @@ while(run==1)
 					{
 						I.right=1;
 					hero.direction=1;
-					printf("hello\n");
 					}
 				if(ArduinoKeyCheck(&ard_ms,"left_start")  )
 					{

@@ -27,9 +27,11 @@
 #include "sidescrolling_BG.h"
 #include "player_side_scrolling.h"
 #include "input.h"
+#include "arduino.h"
 
 int main()
 {
+
     //init ALL variable
          //init  image number (backgound , loading etc ):   
              int bg_num=30,load_num=6,start_num=6,set_num=3,ext_num=3,extra_num=1,computer_img_num=40;
@@ -81,6 +83,14 @@ int main()
 
 	//#########################--KeyBoard--########################//
 
+	//#########################--Joystick--########################//
+	int Joystick_function=1; // ON - OFF player chose from setting if he want to play with joystick or not 
+	ArduinoMaster ard_ms;
+	InitArduino(&ard_ms);
+	
+	
+	//#########################--Joystick--########################//
+	
 	//#########################--background_side_scro--###########//
 	Background B; 
 	init_SDC_Background(&B); 
@@ -127,7 +137,7 @@ init_loading_img(loading,load_num);
 
 //animation
 
-add_blit_delete(screen);
+//add_blit_delete(screen);
 
 
 //end animation
@@ -239,6 +249,7 @@ int msg_state,msg1_state;
 while(run==1)
 {   
 	SDL_Event e;
+	SDL_Event test;
     switch(screen_num)
     {
 //case 0
@@ -326,7 +337,63 @@ while(run==1)
 		}
 		SDL_Flip(screen);
 	//end affichage
+		read_from_arduino(&ard_ms);
+		if(Joystick_function==1)
+			{
+				if(ArduinoKeyCheck(&ard_ms,"right_start")  )
+					{
+						etat_right=1;
+						perso.direction_axe_x=1;
+						perso.move=1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"left_start")  )
+					{
+						etat_left=1;
+						perso.direction_axe_x=-1;
+						perso.move=1;
+						
+					}
+				if(ArduinoKeyCheck(&ard_ms,"left_right_null") && (etat_right != 0 || etat_left != 0) )				
+					{
+						if(etat_right==1)
+            			perso.last_direction=1;
+						if(etat_left==1)
+						perso.last_direction=2;
 
+						etat_right=0;
+						etat_left=0;
+						perso.direction_axe_x =0;
+						
+					}
+					read_from_arduino(&ard_ms);
+				if(ArduinoKeyCheck(&ard_ms,"up_start")  )
+					{
+						etat_up=1;
+						perso.direction_axe_y=-1;
+						perso.move=1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"down_start")  )
+					{
+						etat_down=1;
+						perso.direction_axe_y=1;
+						perso.move=1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"up_down_null") && (etat_down != 0 || etat_up != 0) )
+					{
+						if(etat_down==1)
+            			perso.last_direction=3;
+						if(etat_up==1)
+						perso.last_direction=4;
+
+						etat_down=0;
+						etat_up=0;
+						perso.direction_axe_y=0;
+					}
+				if(etat_down ==0 && etat_up ==0 && etat_right ==0 && etat_left==0)
+						{
+						perso.move=0;
+						}
+			}
 		if(SDL_PollEvent(&e))
 		{
 			switch(e.type)
@@ -483,7 +550,7 @@ while(run==1)
 	//end collision 
 	
 	//scrolling 
-	
+
 		if(perso.pos_image_init.y>=720*3/4)
 		{
 			map.direction_axe_y=1;
@@ -865,6 +932,8 @@ while(run==1)
 
 		//side scrolling game 
 		case 5 :
+			
+			read_from_arduino(&ard_ms);
 			t_prev = SDL_GetTicks();
 			aff_SDC_Background(&B, screen);
 			afficher_Hero(&hero,screen);
@@ -873,8 +942,64 @@ while(run==1)
 				SDL_BlitSurface(msg1,NULL,screen,&pos_msg1);
 			}
 			SDL_Flip(screen);
+			if(Joystick_function==1)
+			{
+				if(ArduinoKeyCheck(&ard_ms,"right_start")  )
+					{
+						I.right=1;
+					hero.direction=1;
+					printf("hello\n");
+					}
+				if(ArduinoKeyCheck(&ard_ms,"left_start")  )
+					{
+						I.left = 1;
+            		    hero.direction=-1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"left_right_null") && (I.right != 0 || I.left != 0) )				
+					{
+						if(I.right==1)
+            			hero.last_direction=1;
+						if(I.left==1)
+						hero.last_direction=-1;
+
+						I.right = 0;
+						I.left = 0 ;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"up_start")  )
+					{
+						I.jump = 1;
+					}
+				/*if(ArduinoKeyCheck(&ard_ms,"down_start")  )
+					{
+						I.left = 1;
+            		    hero.direction=-1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"up_down_null") && (I.right != 0 || I.left != 0) )
+					{
+						if(I.right==1)
+            			hero.last_direction=1;
+						if(I.left==1)
+						hero.last_direction=-1;
+
+						I.right = 0;
+						I.left = 0 ;
 
 
+					}*/
+			}
+			
+			
+			/*if(ArduinoKeyCheck(&ard_ms,"right_end") )
+			{
+  			if(I.right==1)
+			{
+				 I.right = 0;
+                hero.last_direction=1;
+
+                if(I.left == 1)
+                hero.direction=-1;
+			}
+			}*/
 			if(SDL_PollEvent(&e))
 			{
 				switch(e.type)

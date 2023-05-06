@@ -1,5 +1,7 @@
-main: main.o jeu.o player.o player_side_scrolling.o input.o RectDimension.o computer.o resize.o background.o sidescrolling_BG.o image.o music.o collision.o textInput.o  jeu.h background.h player.h collision.h computer.h RectDimension.h textInput.h
-	gcc main.o jeu.o player_side_scrolling.o background.o input.o resize.o player.o RectDimension.o image.o music.o sidescrolling_BG.o collision.o computer.o textInput.o -lSDL -lSDL_ttf -lSDL_mixer -lSDL_image -lm  -o main -g
+main: main.o jeu.o player.o player_side_scrolling.o input.o RectDimension.o computer.o resize.o background.o sidescrolling_BG.o image.o music.o collision.o textInput.o arduino.o  jeu.h background.h player.h collision.h computer.h RectDimension.h textInput.h
+	gcc main.o jeu.o player_side_scrolling.o background.o input.o resize.o player.o RectDimension.o image.o music.o sidescrolling_BG.o collision.o computer.o textInput.o arduino.o -lSDL -lSDL_ttf -lSDL_mixer -lSDL_image -lm  -o main -g
+arduino.o:arduino.c
+	gcc -c arduino.c -g
 sidescrolling_BG.o:sidescrolling_BG.c 
 	gcc -c sidescrolling_BG.c -g
 input.o:input.c

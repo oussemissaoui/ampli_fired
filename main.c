@@ -212,7 +212,6 @@ init_loading_img(loading,load_num);
 
 //end init of image
 knock=Mix_LoadWAV("mp3/knock.wav");
-play_music(Music1,"mp3/musicbg1.mp3");
 //test text 
 //font
  TTF_Font *chrono;
@@ -246,6 +245,9 @@ add_blit_delete(screen);
 
 
 //end animation
+play_music(Music1,"mp3/musicbg1.mp3");
+
+
 
 while(run==1)
 {   

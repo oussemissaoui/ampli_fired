@@ -10,7 +10,7 @@
     void play_music(Mix_Music *m,char musicpath[])
     {
     m=Mix_LoadMUS(musicpath);
-    Mix_VolumeMusic(42);
+    Mix_VolumeMusic(100);
     Mix_PlayMusic(m,-1);
     }
 

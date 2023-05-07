@@ -84,7 +84,7 @@ int main()
 	//#########################--KeyBoard--########################//
 
 	//#########################--Joystick--########################//
-	int Joystick_function=1; // ON - OFF player chose from setting if he want to play with joystick or not 
+	int Joystick_function=0; // ON - OFF player chose from setting if he want to play with joystick or not 
 	ArduinoMaster ard_ms;
 	InitArduino(&ard_ms);
 	
@@ -135,12 +135,7 @@ init_loading_img(loading,load_num);
             }
 //end init
 
-//animation
 
-//add_blit_delete(screen);
-
-
-//end animation
 
 
 
@@ -245,6 +240,12 @@ int msg_state,msg1_state;
 
 //end test
 //screen_num=5;
+//animation
+
+add_blit_delete(screen);
+
+
+//end animation
 
 while(run==1)
 {   
@@ -337,6 +338,7 @@ while(run==1)
 		}
 		SDL_Flip(screen);
 	//end affichage
+		if(Joystick_function==1)
 		read_from_arduino(&ard_ms);
 		if(Joystick_function==1)
 			{
@@ -365,6 +367,7 @@ while(run==1)
 						perso.direction_axe_x =0;
 						
 					}
+					if(Joystick_function==1)
 					read_from_arduino(&ard_ms);
 				if(ArduinoKeyCheck(&ard_ms,"up_start")  )
 					{
@@ -932,7 +935,7 @@ while(run==1)
 
 		//side scrolling game 
 		case 5 :
-			
+			if(Joystick_function==1)
 			read_from_arduino(&ard_ms);
 			t_prev = SDL_GetTicks();
 			aff_SDC_Background(&B, screen);
@@ -1110,7 +1113,7 @@ while(run==1)
         }
 		dt = (SDL_GetTicks()/10) - (t_prev/10);
 		leftAndRightHeroMvtR(&hero,B, I, dt);
-        jumpHeroMvt(&hero, &I);
+        jumpHeroMvt(&hero, &I,&B);
 		hero.frame++;
 	//end update player 
 	//update SDC_background 

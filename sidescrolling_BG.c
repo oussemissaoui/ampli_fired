@@ -116,12 +116,12 @@ void aff_SDC_Background(Background *B, SDL_Surface *screen)
 
 void animer_SDC_Back(Background *B)
 {
- 
-  if (B->frame == 7)
-    B->frame = 0;
+  B->frame++;
+  if (B->frame > 7)
+    B->frame = 1;
 
   
-  B->frame++;
+  
 }
 
 
@@ -130,7 +130,7 @@ void SD_scrolling(Background *B, SDL_Rect posPerso, int direction)
   const int speed = +6;
   if (direction == 1)
   {
-    if (( B->camera.x <10000 - B->camera.w)  &&(posPerso.x >= 500))
+    if (( B->camera.x <8693 - B->camera.w)  &&(posPerso.x >= 500))
     {
       B->camera.x += speed;
     }
@@ -141,6 +141,10 @@ void SD_scrolling(Background *B, SDL_Rect posPerso, int direction)
     {
       B->camera.x -= speed;
     }
+  }
+  if(B->camera.x<0)
+  {
+    B->camera.x=0;
   }
 }
 void freeBackground(Background *B)

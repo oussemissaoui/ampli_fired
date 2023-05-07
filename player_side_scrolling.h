@@ -40,7 +40,8 @@ void afficher_Hero(Hero *h, SDL_Surface *screen);
 void idleAnimation(Hero *h);
 void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt);
 void runAnimation(Hero *h);
-void jumpHeroMvt(Hero *hero, Input *I);
+//void jumpHeroMvt(Hero *hero, Input *I);
+void jumpHeroMvt(Hero *hero, Input *I,Background *B);
 void jumpAnimation(Hero *h);
 void attackAnimation(Hero *h,Input *I);
 

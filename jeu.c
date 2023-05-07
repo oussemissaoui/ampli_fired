@@ -114,7 +114,7 @@ void add_blit_delete(SDL_Surface *screen)
     Mix_Music *mus;
     start=SDL_GetTicks();
     play_music(mus,"mp3/trailer_son.mp3");
-    for(j=0;j<711;j++){
+    for(j=0;j<694;j++){
         sprintf(url,"loading_img/trailer/%d.png",j);
         img=IMG_Load(url);
         if(img==NULL)
@@ -123,9 +123,9 @@ void add_blit_delete(SDL_Surface *screen)
         }
         SDL_BlitSurface(img,NULL,screen,NULL);
         SDL_Flip(screen);
-        if(j==710)
+        if(j==693)
         Mix_HaltMusic();
-        SDL_Delay(25);
+        SDL_Delay(21);
         
         
 

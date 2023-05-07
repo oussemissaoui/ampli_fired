@@ -160,7 +160,7 @@ void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt)
     else{
         if ((hero->direction == 1 || hero->direction == -1))
         {
-            if ((I.right == 1 && I.left==0 && hero->heroPos.x<500)||B.camera.x >= 10000 -1500)
+            if ((I.right == 1 && I.left==0 && hero->heroPos.x<500)||B.camera.x >= 8693 -1500)
             {
 
                 hero->xStep = 0.5 * hero->velocity * dt * dt + hero->speed * dt;
@@ -213,7 +213,7 @@ void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt)
     }
     
 }
-void jumpHeroMvt(Hero *hero, Input *I)
+void jumpHeroMvt(Hero *hero, Input *I,Background *B)
 {
     ///printf("%f\n",p->VarX);
 	int y;
@@ -238,6 +238,16 @@ void jumpHeroMvt(Hero *hero, Input *I)
 		I->jump = 0;
 		hero->col = 1;
 	}
+    if(I->jump==1 && (I->right==1 && I->left==0) )
+    {
+        //hero->heroPos.x +=5;
+        B->camera.x +=5;
+    }
+    if(I->jump==1 && (I->left==1&&I->right==0))
+    {
+        //hero->heroPos.x +=5;
+        B->camera.x -=5;
+    }
 	hero->heroPos.y = (int)y + Ground;
 }
 void runAnimation(Hero *h)

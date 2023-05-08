@@ -149,9 +149,9 @@ int ArduinoKeyCheck(ArduinoMaster *ard_ms, char *key_str){
         strcpy(to_check, "right_start");
     }
 
-    if (ard_ms->ard_return != NULL && strstr(ard_ms->ard_return, "interact")) {
+    if (ard_ms->ard_return != NULL && strstr(ard_ms->ard_return, "fpressed")) {
         //printf("Yes\n");
-        strcpy(to_check, "interact");
+        strcpy(to_check, "fpressed");
     }
 
     if (ard_ms->ard_return != NULL && strstr(ard_ms->ard_return, "left_right_null")) {
@@ -169,10 +169,6 @@ int ArduinoKeyCheck(ArduinoMaster *ard_ms, char *key_str){
         strcpy(to_check, "down_start");
     }
 
-    if (ard_ms->ard_return != NULL && strstr(ard_ms->ard_return, "left_right_null")) {
-        //printf("Yes\n");
-        strcpy(to_check, "left_right_null");
-    }
 
     if (ard_ms->ard_return != NULL && strstr(ard_ms->ard_return, "up_down_null")) {
         //printf("Yes\n");

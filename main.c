@@ -84,9 +84,10 @@ int main()
 	//#########################--KeyBoard--########################//
 
 	//#########################--Joystick--########################//
-	int Joystick_function=0; // ON - OFF player chose from setting if he want to play with joystick or not 
+	int Joystick_function=1; // ON - OFF player chose from setting if he want to play with joystick or not 
 	ArduinoMaster ard_ms;
 	InitArduino(&ard_ms);
+	int fpressed=0; //detect pressed button same role as F key in jotstick
 	
 	
 	//#########################--Joystick--########################//
@@ -369,8 +370,6 @@ while(run==1)
 						perso.direction_axe_x =0;
 						
 					}
-					if(Joystick_function==1)
-					read_from_arduino(&ard_ms);
 				if(ArduinoKeyCheck(&ard_ms,"up_start")  )
 					{
 						etat_up=1;
@@ -393,6 +392,34 @@ while(run==1)
 						etat_down=0;
 						etat_up=0;
 						perso.direction_axe_y=0;
+					}
+					if(ArduinoKeyCheck(&ard_ms,"fpressed")  )
+					{
+						fpressed=1;
+						if((fpressed ==1) && msg_state ==1 )
+					{
+						while(pc_state==0)
+						{
+							if(SDL_PollEvent(&e)){
+								switch(e.key.keysym.sym)
+								{
+									case 282:
+										pc_state=1;
+									break;
+								}
+							}
+							SDL_BlitSurface(pc_error.img,NULL,screen,NULL);
+							SDL_Flip(screen);
+						}
+						
+						if(pc==NULL)
+						pc=init_computer(computer_img_num,screen);
+						else
+						parcourir_with_Delay(pc,screen,150);
+						screen_num=4;
+						fpressed=0;
+						
+					}
 					}
 				if(etat_down ==0 && etat_up ==0 && etat_right ==0 && etat_left==0)
 						{
@@ -434,7 +461,7 @@ while(run==1)
 						perso.direction_axe_y=-1;
 						perso.move=1;
 					}
-					if(e.key.keysym.sym == SDLK_f && msg_state ==1 )
+					if((e.key.keysym.sym == SDLK_f || fpressed ==1) && msg_state ==1 )
 					{
 						while(pc_state==0)
 						{
@@ -455,6 +482,7 @@ while(run==1)
 						else
 						parcourir_with_Delay(pc,screen,150);
 						screen_num=4;
+						fpressed=0;
 						
 					}
 				

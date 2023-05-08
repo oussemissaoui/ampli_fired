@@ -11,6 +11,9 @@ int collision_parfaite_down(SDL_Surface *mask , SDL_Rect posjoueur  , int xOffse
 int collision_all_body(SDL_Surface *mask , SDL_Rect posjoueur  , int xOffset,int yOffset);
 int collision_out_home(SDL_Surface *mask , SDL_Rect posjoueur  , int xOffset,int yOffset);
 
+////////////////out side collision///////////////////////
+int SS_collision_parfaite_down(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset);
+
 
 #endif
 

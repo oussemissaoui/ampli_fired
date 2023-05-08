@@ -12,7 +12,7 @@ typedef struct
 
 }background;
 void initBack(background * b);
-void initMask(background * b);
+void initMask(background * b,background * b1);
 void afficherBack(background b, SDL_Surface * screen);
 void scrolling (background * b, int direction , int pas);
 /*void scrolling (SDL_Rect * b, int direction, int pas );

@@ -104,7 +104,8 @@ int main()
 	
     image *loading[load_num],*bg[bg_num],*start[start_num],*setting[set_num],*exit[ext_num];
     image *eff_set[eff_set_num],*mus_eff[mus_eff_num],*sfx_eff[sfx_eff_num],*extra[extra_num],*exit_yes_no[choice_num];
-	background map,mask;
+	background map,mask,mask_side;
+
 	
 	
     SDL_Surface *screen;
@@ -236,12 +237,12 @@ SDL_Rect pos_msg,pos_msg1;
 msg=IMG_Load("loading_img/msg.png");
 msg1=IMG_Load("loading_img/msg1.png");
 int msg_state,msg1_state;
-
+initMask(&mask,&mask_side);
 //end test
-//screen_num=5;
+screen_num=5;
 //animation
 
-add_blit_delete(screen);
+//add_blit_delete(screen);  //animation_cancel
 
 
 //end animation
@@ -274,9 +275,9 @@ while(run==1)
 				SDL_BlitSurface(tv_eff[i]->scaled,NULL,screen,NULL);
  				SDL_Flip(screen);
 				}*/
-				parcourir(l,screen);
+				//parcourir(l,screen); //animation_cancel
 				initBack(&map);
-				initMask(&mask);
+				
 				initPerso(&perso);
 				screen_num=1;
 				Mix_HaltMusic();
@@ -946,6 +947,7 @@ while(run==1)
 			{
 				SDL_BlitSurface(msg1,NULL,screen,&pos_msg1);
 			}
+			//SDL_BlitSurface(mask_side.img,NULL,screen,NULL);
 			SDL_Flip(screen);
 			if(Joystick_function==1)
 			{
@@ -1115,6 +1117,16 @@ while(run==1)
         }
 		dt = (SDL_GetTicks()/10) - (t_prev/10);
 		leftAndRightHeroMvtR(&hero,B, I, dt);
+
+
+		if(SS_collision_parfaite_down(mask_side.img,hero.heroPos, B.camera.x,0)==1) 
+		{
+			hero.col_down=1;
+		}
+		else
+		{
+			hero.col_down=0;
+		}
         jumpHeroMvt(&hero, &I,&B);
 		hero.frame++;
 	//end update player 

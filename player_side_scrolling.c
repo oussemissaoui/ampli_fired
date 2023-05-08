@@ -48,7 +48,8 @@ void init_hero(Hero *h)
     h->posScore.y = 250;
     TTF_Init();  
     h->police = TTF_OpenFont("font/font.ttf", 50);
-
+    h->col_down=0;
+    h->groundd=427;
 
     //setrects(h->rects);
 }
@@ -213,13 +214,15 @@ void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt)
     }
     
 }
-void jumpHeroMvt(Hero *hero, Input *I,Background *B)
+/*void jumpHeroMvt(Hero *hero, Input *I,Background *B )
 {
     ///printf("%f\n",p->VarX);
+
 	int y;
 	int Amp = -300;
 	float delta = -4 * Amp;
 	float x = (sqrt(delta) / 2);
+    if(hero.col_down==0 && I->jump==0)
 	if ((I->jump == 1) || (hero->col == 0))
 	{
 		hero->VarX++;
@@ -249,6 +252,35 @@ void jumpHeroMvt(Hero *hero, Input *I,Background *B)
         B->camera.x -=5;
     }
 	hero->heroPos.y = (int)y + Ground;
+}*/
+void jumpHeroMvt(Hero *hero, Input *I,Background *B )
+{
+    ///printf("%f\n",p->VarX);
+	int y;
+	int Amp = -300;
+	float delta = -4 * Amp;
+	float x = (sqrt(delta) / 3);
+    
+    if(hero->col_down==0 && I->jump ==0)
+    {
+        hero->heroPos.y++;
+    }
+    
+    if(hero->col_down==1 && I->jump ==0)
+    {
+        hero->groundd=hero->heroPos.y+198;
+        printf("ground = %d\n",hero->groundd);
+    }
+    if(I->jump==1)
+    {
+         hero->heroPos.y-=2;
+         if(hero->heroPos.y<=50)
+         {
+           I->jump=0;
+         }
+    }
+
+
 }
 void runAnimation(Hero *h)
 {
@@ -288,6 +320,7 @@ void runAnimation(Hero *h)
 
 void jumpAnimation(Hero *h)
 {
+    
     if(h->direction == 1 && h->frame>=10)
     {
         if(h->herosprite.y!=963)

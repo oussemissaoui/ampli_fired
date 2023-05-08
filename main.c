@@ -942,12 +942,13 @@ while(run==1)
 			read_from_arduino(&ard_ms);
 			t_prev = SDL_GetTicks();
 			aff_SDC_Background(&B, screen);
+			SDL_BlitSurface(mask_side.img,&B.camera,screen,NULL);
 			afficher_Hero(&hero,screen);
 			if(msg1_state==1)
 			{
 				SDL_BlitSurface(msg1,NULL,screen,&pos_msg1);
 			}
-			//SDL_BlitSurface(mask_side.img,NULL,screen,NULL);
+			
 			SDL_Flip(screen);
 			if(Joystick_function==1)
 			{

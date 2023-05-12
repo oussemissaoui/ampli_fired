@@ -29,14 +29,12 @@ typedef struct
     int frame;
     float speed;
     int colright,colleft,coldown,colup;
-
-
-
 }personne;
 
 
 
 void initPerso(personne *p);
+
 void afficherPerso(personne p, SDL_Surface * screen);
 void movePerso (personne *p);
 void animerPerso (personne* p);

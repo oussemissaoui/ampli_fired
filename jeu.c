@@ -107,14 +107,36 @@ void parcourir_with_Delay(liste l,SDL_Surface* screen,int Delay)
 
 void add_blit_delete(SDL_Surface *screen)
 {
-    int j;
+    int j,button,timer=0;
     int start,now;
     char url[30];
+    SDL_Event e;
     SDL_Surface *img;
     Mix_Music *mus;
     start=SDL_GetTicks();
     play_music(mus,"mp3/trailer_son.mp3");
     for(j=0;j<694;j++){
+        if(SDL_PollEvent(&e))
+        {
+            switch(e.type)
+            {
+                case SDL_KEYDOWN:
+                    if(e.key.keysym.sym==SDLK_SPACE)
+                    button=1;
+                break;
+                case SDL_KEYUP:
+                    if(e.key.keysym.sym==SDLK_SPACE)
+                    button=0;
+                break;
+
+                
+            }
+        }
+        if(button==1)
+        {
+            timer++;
+        }
+        
         sprintf(url,"loading_img/trailer/%d.png",j);
         img=IMG_Load(url);
         if(img==NULL)
@@ -123,6 +145,10 @@ void add_blit_delete(SDL_Surface *screen)
         }
         SDL_BlitSurface(img,NULL,screen,NULL);
         SDL_Flip(screen);
+        if(timer>=30)
+        {
+            j=694;
+        }
         if(j==693)
         Mix_HaltMusic();
         SDL_Delay(21);

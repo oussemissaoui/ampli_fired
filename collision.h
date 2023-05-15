@@ -13,6 +13,8 @@ int collision_out_home(SDL_Surface *mask , SDL_Rect posjoueur  , int xOffset,int
 
 ////////////////out side collision///////////////////////
 int SS_collision_parfaite_down(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset);
+int SS_collision_green_zone(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset);
+
 
 
 #endif

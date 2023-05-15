@@ -1,7 +1,7 @@
 #ifndef player_H_INCLUDED
 #define player_H_INCLUDED
 #include "input.h"
-#define Ground 427
+//#define Ground 427
 #include <SDL/SDL_ttf.h>
 
 typedef struct
@@ -20,6 +20,8 @@ typedef struct
     int col;
     int col_down;
     float VarX;
+    int Ground;
+
 
     SDL_Rect posVie1;
     SDL_Rect posVie2;
@@ -28,7 +30,7 @@ typedef struct
     TTF_Font *police;
     int vie;
     int score;
-    int groundd;
+    int groundd,lastground;
 
 
 
@@ -42,8 +44,8 @@ void afficher_Hero(Hero *h, SDL_Surface *screen);
 void idleAnimation(Hero *h);
 void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt);
 void runAnimation(Hero *h);
-//void jumpHeroMvt(Hero *hero, Input *I);
-void jumpHeroMvt(Hero *hero, Input *I,Background *B);
+void jumpHeroMvt(Hero *hero, Input *I);
+//void jumpHeroMvt(Hero *hero, Input *I,Background *B);
 void jumpAnimation(Hero *h);
 void attackAnimation(Hero *h,Input *I);
 

@@ -250,7 +250,7 @@ initMask(&mask,&mask_side);
 //screen_num=5;
 //animation
 
-//add_blit_delete(screen);  //animation_cancel
+add_blit_delete(screen);  //animation_cancel
 
 
 //end animation
@@ -283,7 +283,7 @@ while(run==1)
 				SDL_BlitSurface(tv_eff[i]->scaled,NULL,screen,NULL);
  				SDL_Flip(screen);
 				}*/
-				//parcourir(l,screen); //animation_cancel
+				parcourir(l,screen); //animation_cancel
 				initBack(&map);
 				
 				initPerso(&perso);
@@ -1209,12 +1209,26 @@ while(run==1)
 		if(SS_collision_parfaite_down(mask_side.img,hero.heroPos, B.camera.x,0)==1) 
 		{
 			hero.col_down=1;
+			if(I.jump=0)
+			{
+				hero.groundd=hero.heroPos.y+185;
+				hero.heroPos.y=hero.groundd-185;
+				
+			}
+			/*if(hero.heroPos.y>427-185)
+			{
+				hero.heroPos.y=427-185;
+			}*/
 		}
 		else
 		{
 			hero.col_down=0;
+			if(hero.heroPos.y>427-185)
+			{
+				hero.heroPos.y=427-185;
+			}
 		}
-        jumpHeroMvt(&hero, &I,&B);
+        jumpHeroMvt(&hero, &I);
 		hero.frame++;
 	//end update player 
 	//update SDC_background 

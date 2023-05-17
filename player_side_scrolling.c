@@ -5,6 +5,7 @@
 #include <math.h>
 #include "sidescrolling_BG.h"
 #include "player_side_scrolling.h"
+#include "input.h"
 
 
 
@@ -23,7 +24,7 @@ void init_hero(Hero *h)
    // h->currentMode = 0;
     
     h->heroPos.x = 100;
-    h->heroPos.y = Ground;
+    h->heroPos.y = 427;
 
     h->herosprite.x=0;
     h->herosprite.y=38; 
@@ -48,7 +49,9 @@ void init_hero(Hero *h)
     h->posScore.y = 250;
     TTF_Init();  
     h->police = TTF_OpenFont("font/font.ttf", 50);
-
+    h->col_down=0;
+    h->groundd=427;
+    h->lastground=427;
 
     //setrects(h->rects);
 }
@@ -213,13 +216,15 @@ void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt)
     }
     
 }
-void jumpHeroMvt(Hero *hero, Input *I,Background *B)
+/*void jumpHeroMvt(Hero *hero, Input *I,Background *B )
 {
     ///printf("%f\n",p->VarX);
+
 	int y;
 	int Amp = -300;
 	float delta = -4 * Amp;
 	float x = (sqrt(delta) / 2);
+    if(hero.col_down==0 && I->jump==0)
 	if ((I->jump == 1) || (hero->col == 0))
 	{
 		hero->VarX++;
@@ -249,6 +254,122 @@ void jumpHeroMvt(Hero *hero, Input *I,Background *B)
         B->camera.x -=5;
     }
 	hero->heroPos.y = (int)y + Ground;
+}*/
+/*void jumpHeroMvt(Hero *hero, Input *I,Background *B )
+{
+    ///printf("%f\n",p->VarX);
+	int y;
+	int Amp = -300;
+	float delta = -4 * Amp;
+	float x = (sqrt(delta) / 3);
+    y = (int)((hero->VarX - x) * (hero->VarX - x) + Amp);
+    printf("%d\n",y);
+    if(hero->col_down==0 && I->jump ==0)
+    {
+        hero->heroPos.y++;
+    }
+    
+    if(hero->col_down==1 && I->jump ==0)
+    {
+        hero->groundd=hero->heroPos.y+198;
+        printf("ground = %d\n",hero->groundd);
+    }
+    if(I->jump==1)
+    {
+        hero->VarX++;
+        B->camera.x += (x * hero->direction);
+		//printf("Jump\n");
+         hero->heroPos.y-=hero->VarX;
+         if(hero->heroPos.y<=50)
+         {
+           I->jump=0;
+         }
+    }
+    y = (int)((hero->VarX - x) * (hero->VarX - x) + Amp);
+    if (y < 0)
+	{
+		hero->col = 0;
+	}
+	if (y >= 0)
+	{
+		y = 0;
+		hero->VarX = 0;
+		I->jump = 0;
+		hero->col = 1;
+	}
+
+
+}*/
+void jumpHeroMvt(Hero *hero, Input *I,Background *B )
+{
+    ///printf("%f\n",p->VarX);
+	int y;
+	int Amp = -350;
+	float delta = -4 * Amp;
+	float x = (sqrt(delta) / 2);
+    
+	if ((I->jump == 1 || I->jump == -1))
+	{
+		hero->VarX++;
+        printf("val xx : %f\n",hero->VarX);
+        B->camera.x += (x * hero->direction/2);
+        //hero->Ground=hero->heroPos.y+198;
+	}
+    
+	y = (int)((hero->VarX - x) * (hero->VarX - x) + Amp);
+    printf("y == %d\n",y);
+    if(y<=-340)
+    {
+        I->jump=-1;
+    }
+    
+	if (y < 0)
+	{
+		//hero->col_bas = 0;
+          
+	}
+    if(hero->col_down==1 && I->jump==-1)
+        {
+            I->jump=0;
+            hero->groundd=hero->heroPos.y;
+            hero->lastground= hero->groundd;
+            y=0;
+        } 
+	if (y >= 0 && hero->col_down==1)
+	{
+		y = 0;
+		hero->VarX = 0;
+		I->jump = 0;
+		//hero->col_bas = 0;
+	}
+    
+    
+	hero->heroPos.y = (int)y + hero->groundd;
+    if(hero->col_down==0 && (I->jump==0 ||I->jump==-1))
+    {
+        hero->groundd+=3;
+    }
+
+    //printf("pos->hero:%d || ground : %d || last_ground : %d || I->jump : %d || hero_coldown : %d \n",hero->heroPos.y,hero->groundd,hero->lastground,I->jump,hero->col_down);
+    //printf("hero x %d , hero y %d , camera x %d , camera y %d ",hero->heroPos.x,hero->heroPos.y,B->camera.x,B->camera.y);
+    if(hero->groundd>=600)
+    {
+        hero->heroPos.x=317;
+        hero->heroPos.y=437;
+        B->camera.x=0;
+        B->camera.y=0;
+        hero->groundd=427;
+        init_input(I);
+        hero->col_down==1;
+        printf("************you Died*****************\n");
+        SDL_Delay(2000);
+        
+    }
+
+
+
+
+
 }
 void runAnimation(Hero *h)
 {
@@ -288,6 +409,7 @@ void runAnimation(Hero *h)
 
 void jumpAnimation(Hero *h)
 {
+    
     if(h->direction == 1 && h->frame>=10)
     {
         if(h->herosprite.y!=963)

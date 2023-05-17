@@ -40,9 +40,9 @@ void initPerso(personne *p)
             p->colleft=0;
             p->coldown=0;
             p->colup=0;
-
-
+            
 }
+
 
 /**
 

@@ -51,18 +51,20 @@ int main()
 	int decalagey;
 	
 	//#########################--Computer--#######################//
-
+	int test=0;   //to remove
 
 	//#########################--Player--#######################//
 	
 	personne perso;
 	
 	int etat_left=0,etat_right=0,etat_down=0,etat_up=0; // pour sauvegarder l'etat de key est ce que nezelin 3lih wala lee 
+	int etat_left_p2=0,etat_right_p2=0,etat_down_p2=0,etat_up_p2=0; // pour sauvegarder l'etat de key est ce que nezelin 3lih wala lee 
 	int player_out_home_state=0;
 	 Hero hero;
-    Input I;
+    Input I,I2;
     init_hero(&hero);
     init_input(&I);
+	init_input(&I2);
 
 	
 	//#########################--Player--#######################//
@@ -91,6 +93,12 @@ int main()
 	
 	
 	//#########################--Joystick--########################//
+
+	//#########################--multiplayer--########################//
+	personne perso2;
+	int multiplayer_state=1;
+	int syncro=0;
+	//#########################--multiplayer--########################//
 	
 	//#########################--background_side_scro--###########//
 	Background B; 
@@ -105,7 +113,8 @@ int main()
 	
     image *loading[load_num],*bg[bg_num],*start[start_num],*setting[set_num],*exit[ext_num];
     image *eff_set[eff_set_num],*mus_eff[mus_eff_num],*sfx_eff[sfx_eff_num],*extra[extra_num],*exit_yes_no[choice_num];
-	background map,mask;
+	background map,mask,mask_side;
+
 	
 	
     SDL_Surface *screen;
@@ -237,12 +246,12 @@ SDL_Rect pos_msg,pos_msg1;
 msg=IMG_Load("loading_img/msg.png");
 msg1=IMG_Load("loading_img/msg1.png");
 int msg_state,msg1_state;
-
+initMask(&mask,&mask_side);
 //end test
 //screen_num=5;
 //animation
 
-add_blit_delete(screen);
+add_blit_delete(screen);  //animation_cancel
 
 
 //end animation
@@ -253,7 +262,7 @@ play_music(Music1,"mp3/musicbg1.mp3");
 while(run==1)
 {   
 	SDL_Event e;
-	SDL_Event test;
+	
     switch(screen_num)
     {
 //case 0
@@ -275,10 +284,16 @@ while(run==1)
 				SDL_BlitSurface(tv_eff[i]->scaled,NULL,screen,NULL);
  				SDL_Flip(screen);
 				}*/
-				parcourir(l,screen);
+				parcourir(l,screen); //animation_cancel
 				initBack(&map);
-				initMask(&mask);
+				
 				initPerso(&perso);
+				if(multiplayer_state==0)
+				{
+					initPerso(&perso2);
+					perso2.pos_image_init.x+=50;
+					syncro=map.pos_image_aff.y;
+				}
 				screen_num=1;
 				Mix_HaltMusic();
 			break;}
@@ -335,6 +350,13 @@ while(run==1)
 	//affichage
 		afficherBack(map,screen); //to edit map,screen
 		afficherPerso(perso,screen);
+		if(syncro!=map.pos_image_aff.y){
+		perso2.pos_image_init.y-=(map.pos_image_aff.y-syncro);
+		syncro=map.pos_image_aff.y;
+		
+		}
+
+		afficherPerso(perso2,screen);
 		if(msg_state==1)
 		{
 			SDL_BlitSurface(msg,NULL,screen,&pos_msg);
@@ -461,6 +483,33 @@ while(run==1)
 						perso.direction_axe_y=-1;
 						perso.move=1;
 					}
+					if(e.key.keysym.sym==SDLK_d)
+					{
+						
+						etat_right_p2=1;
+						perso2.direction_axe_x=1;
+						perso2.move=1;
+
+					}
+					if(e.key.keysym.sym==SDLK_q)
+					{
+						etat_left_p2=1;
+						perso2.direction_axe_x=-1;
+						perso2.move=1;
+						
+					}
+					if(e.key.keysym.sym==SDLK_s)
+					{
+						etat_down_p2=1;
+						perso2.direction_axe_y=1;
+						perso2.move=1;
+					}
+					if(e.key.keysym.sym==SDLK_z)
+					{
+						etat_up_p2=1;
+						perso2.direction_axe_y=-1;
+						perso2.move=1;
+					}
 					if((e.key.keysym.sym == SDLK_f || fpressed ==1) && msg_state ==1 )
 					{
 						while(pc_state==0)
@@ -518,6 +567,42 @@ while(run==1)
 						{
 						perso.move=0;
 						}
+					}
+					// player 2 
+					if(multiplayer_state==0)
+					{
+						if(e.key.keysym.sym==SDLK_d ||e.key.keysym.sym==SDLK_q || e.key.keysym.sym==SDLK_z || e.key.keysym.sym==SDLK_s   )
+					{
+					if(e.key.keysym.sym==SDLK_d)
+					{
+						etat_right=0;
+						perso2.direction_axe_x =0;
+						perso2.last_direction=1;
+					}
+					if(e.key.keysym.sym==SDLK_q)
+					{
+						etat_left=0;
+						perso2.direction_axe_x =0;
+						perso2.last_direction=2;				
+					}
+					if(e.key.keysym.sym==SDLK_s)
+					{
+						etat_down=0;
+						perso2.direction_axe_y=0;
+						perso2.last_direction=3;
+					}
+					if(e.key.keysym.sym==SDLK_z)
+					{
+						etat_up=0;	
+						perso2.direction_axe_y=0;
+						perso2.last_direction=4;		
+					}  	
+						if(etat_down_p2 ==0 && etat_up_p2 ==0 && etat_right_p2 ==0 && etat_left_p2==0)
+						{
+						perso2.move=0;
+						}
+					}
+
 					}
 					
 				break;
@@ -605,6 +690,7 @@ while(run==1)
 	//end scrolling
 
 		movePerso(&perso);
+		movePerso(&perso2);
 		/*if((perso.pos_image_init.y>=720*3/4 || perso.pos_image_init.y<=720*1/4) && map.pos_image_aff.x>=0 && map.pos_image_aff.x<=579)
 		{
 			
@@ -634,6 +720,7 @@ while(run==1)
 
 
 		animerPerso(&perso);
+		animerPerso(&perso2);
 		
 		break;
 
@@ -969,11 +1056,14 @@ while(run==1)
 			read_from_arduino(&ard_ms);
 			t_prev = SDL_GetTicks();
 			aff_SDC_Background(&B, screen);
+			if(test==1)
+			SDL_BlitSurface(mask_side.img,&B.camera,screen,NULL);
 			afficher_Hero(&hero,screen);
 			if(msg1_state==1)
 			{
 				SDL_BlitSurface(msg1,NULL,screen,&pos_msg1);
 			}
+			
 			SDL_Flip(screen);
 			if(Joystick_function==1)
 			{
@@ -1044,6 +1134,7 @@ while(run==1)
 					switch(e.key.keysym.sym)
                     {
                         case SDLK_SPACE:
+						if(hero.col_down==1 && I.jump==0)
                             I.jump = 1;
                         break;
                         case SDLK_RIGHT:
@@ -1060,7 +1151,9 @@ while(run==1)
                         case SDLK_x :
                             I.attack = 1;
                             printf("%d",I.attack);
+							test=1;
                         break;
+
 
                     }
 					break;
@@ -1143,7 +1236,20 @@ while(run==1)
         }
 		dt = (SDL_GetTicks()/10) - (t_prev/10);
 		leftAndRightHeroMvtR(&hero,B, I, dt);
+
+
+		if(SS_collision_parfaite_down(mask_side.img,hero.heroPos, B.camera.x,0)==1) 
+		{
+			hero.col_down=1;
+		}
+		else
+		hero.col_down=0;
+
         jumpHeroMvt(&hero, &I,&B);
+		if(hero.col_down==1 && I.jump==0)
+		perfect_placement_player_above_mask(mask_side.img,hero.heroPos, B.camera.x,B.camera.y,&hero);
+
+
 		hero.frame++;
 	//end update player 
 	//update SDC_background 

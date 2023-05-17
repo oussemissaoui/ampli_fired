@@ -8,7 +8,7 @@ void init_SDC_Background(Background *B)
   B->camera.x = 0;  
   B->camera.y = 0;  
   B->camera.w = 1500;  
-  B->camera.h = 700;  
+  B->camera.h = 720;  
 
   B->frame = 1;  
 

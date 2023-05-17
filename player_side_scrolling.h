@@ -1,8 +1,9 @@
 #ifndef player_H_INCLUDED
 #define player_H_INCLUDED
 #include "input.h"
-#define Ground 427
+//#define Ground 427
 #include <SDL/SDL_ttf.h>
+#include "background.h"
 
 typedef struct
 {
@@ -18,7 +19,10 @@ typedef struct
     int direction; // 0: no move 1:right move -1: left move (num kima repere fel math )
     int last_direction; // 1 or -1 we will save the last direction  right or left 
     int col;
+    int col_down;
     float VarX;
+    int Ground;
+
 
     SDL_Rect posVie1;
     SDL_Rect posVie2;
@@ -27,6 +31,7 @@ typedef struct
     TTF_Font *police;
     int vie;
     int score;
+    int groundd,lastground;
 
 
 

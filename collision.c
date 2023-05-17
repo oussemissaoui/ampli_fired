@@ -414,3 +414,79 @@ for (i =0;(i < 3)&&(collision == 0); i++)
 
 return (collision);
 }
+
+int SS_collision_die_detect(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset)
+{  SDL_Color col,colp;
+SDL_Rect pos[3];
+int collision = 0;
+int i,w,h;
+
+col.r=250;
+col.g=10;
+col.b=10;// cad : col c'est le couleur noir 
+
+w=0;
+h=0;
+
+/*-------coordonnes d point n°1-------*/
+pos[0].x = posjoueur.x +37;
+pos[0].y = posjoueur.y+183;
+
+
+/*-------coordonnes d point n°2-------*/
+pos[1].x = posjoueur.x +70;
+pos[1].y = posjoueur.y+ 183;
+
+
+/*-------coordonnes d point n°3-------*/
+pos[2].x = posjoueur.x +92;
+pos[2].y = posjoueur.y +183;
+
+
+
+for (i =0;(i < 3)&&(collision == 0); i++)
+{
+    colp = GetPixel(mask,pos[i].x ,pos[i].y,xOffset,yOffset );
+    
+    if((col.r==colp.r) && (col.g == colp.g) && (col.b ==colp.b))
+    collision = 1;
+}
+
+
+return (collision);
+}
+
+int perfect_placement_player_above_mask(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset,Hero *h)
+{  SDL_Color col,colp;
+SDL_Rect pos[3];
+int collision = 0;
+int i,w;
+
+col.r=255;
+col.g=255;
+col.b=255;// cad : col c'est le couleur noir 
+
+
+/*-------coordonnes d point n°2-------*/
+pos[1].x = posjoueur.x +70;
+pos[1].y = posjoueur.y+ 183;
+
+
+for (i =0;(i < 50)&&(collision == 0); i++)
+{
+    colp = GetPixel(mask,pos[1].x-i ,pos[1].y-i,xOffset,yOffset );
+    printf("\n %d \n",i);
+    if((col.r==colp.r) && (col.g == colp.g) && (col.b ==colp.b))
+    {
+    collision = 1;
+    pos[1].y+=i;
+    h->groundd -=i;
+    printf("sarr collision\n");
+    return (collision);
+    
+    }
+}
+printf("hello\nhello\n");
+
+return (collision);
+}

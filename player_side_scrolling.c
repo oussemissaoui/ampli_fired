@@ -5,6 +5,7 @@
 #include <math.h>
 #include "sidescrolling_BG.h"
 #include "player_side_scrolling.h"
+#include "input.h"
 
 
 
@@ -299,55 +300,76 @@ void leftAndRightHeroMvtR(Hero *hero,Background B,Input I, Uint32 dt)
 
 
 }*/
-void jumpHeroMvt(Hero *hero, Input *I)
+void jumpHeroMvt(Hero *hero, Input *I,Background *B )
 {
     ///printf("%f\n",p->VarX);
 	int y;
 	int Amp = -350;
 	float delta = -4 * Amp;
 	float x = (sqrt(delta) / 2);
-	if ((I->jump == 1))
+    
+	if ((I->jump == 1 || I->jump == -1))
 	{
 		hero->VarX++;
-        
+        printf("val xx : %f\n",hero->VarX);
+        B->camera.x += (x * hero->direction/2);
         //hero->Ground=hero->heroPos.y+198;
 	}
     
 	y = (int)((hero->VarX - x) * (hero->VarX - x) + Amp);
+    printf("y == %d\n",y);
+    if(y<=-340)
+    {
+        I->jump=-1;
+    }
+    
 	if (y < 0)
 	{
 		//hero->col_bas = 0;
+          
 	}
-	if (y >= 0)
+    if(hero->col_down==1 && I->jump==-1)
+        {
+            I->jump=0;
+            hero->groundd=hero->heroPos.y;
+            hero->lastground= hero->groundd;
+            y=0;
+        } 
+	if (y >= 0 && hero->col_down==1)
 	{
 		y = 0;
 		hero->VarX = 0;
 		I->jump = 0;
 		//hero->col_bas = 0;
 	}
-    if(hero->col_down==1 && I->jump == 1  )
-    {
-        hero->Ground-=abs(y);
-        
-    }
-    else if(hero->col_down==0 && I->jump==0 )
-    {
-        hero->groundd+=5;
-
-    }
-    else if(I->jump == 0 && hero->col_down==1 )
-    {
-        //if(her)
-        if(hero->groundd!=hero->lastground && hero->heroPos.y+185<427 )
-        {
-            hero->groundd=hero->heroPos.y+185;
-        }
-        hero->heroPos.y++;
-        
-    }
-	hero->heroPos.y = (int)y + hero->groundd;
-    printf("%d\n",hero->heroPos.y);
     
+    
+	hero->heroPos.y = (int)y + hero->groundd;
+    if(hero->col_down==0 && (I->jump==0 ||I->jump==-1))
+    {
+        hero->groundd+=3;
+    }
+
+    //printf("pos->hero:%d || ground : %d || last_ground : %d || I->jump : %d || hero_coldown : %d \n",hero->heroPos.y,hero->groundd,hero->lastground,I->jump,hero->col_down);
+    //printf("hero x %d , hero y %d , camera x %d , camera y %d ",hero->heroPos.x,hero->heroPos.y,B->camera.x,B->camera.y);
+    if(hero->groundd>=600)
+    {
+        hero->heroPos.x=317;
+        hero->heroPos.y=437;
+        B->camera.x=0;
+        B->camera.y=0;
+        hero->groundd=427;
+        init_input(I);
+        hero->col_down==1;
+        printf("************you Died*****************\n");
+        SDL_Delay(2000);
+        
+    }
+
+
+
+
+
 }
 void runAnimation(Hero *h)
 {

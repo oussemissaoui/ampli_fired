@@ -51,7 +51,7 @@ int main()
 	int decalagey;
 	
 	//#########################--Computer--#######################//
-
+	int test=0;   //to remove
 
 	//#########################--Player--#######################//
 	
@@ -95,7 +95,7 @@ int main()
 
 	//#########################--multiplayer--########################//
 	personne perso2;
-	int multiplayer_state=0;
+	int multiplayer_state=1;
 	int syncro=0;
 	//#########################--multiplayer--########################//
 	
@@ -247,10 +247,10 @@ msg1=IMG_Load("loading_img/msg1.png");
 int msg_state,msg1_state;
 initMask(&mask,&mask_side);
 //end test
-//screen_num=5;
+screen_num=5;
 //animation
 
-add_blit_delete(screen);  //animation_cancel
+//add_blit_delete(screen);  //animation_cancel
 
 
 //end animation
@@ -261,7 +261,7 @@ play_music(Music1,"mp3/musicbg1.mp3");
 while(run==1)
 {   
 	SDL_Event e;
-	SDL_Event test;
+	
     switch(screen_num)
     {
 //case 0
@@ -1028,7 +1028,8 @@ while(run==1)
 			read_from_arduino(&ard_ms);
 			t_prev = SDL_GetTicks();
 			aff_SDC_Background(&B, screen);
-			//SDL_BlitSurface(mask_side.img,&B.camera,screen,NULL);
+			if(test==1)
+			SDL_BlitSurface(mask_side.img,&B.camera,screen,NULL);
 			afficher_Hero(&hero,screen);
 			if(msg1_state==1)
 			{
@@ -1105,6 +1106,7 @@ while(run==1)
 					switch(e.key.keysym.sym)
                     {
                         case SDLK_SPACE:
+						if(hero.col_down==1 && I.jump==0)
                             I.jump = 1;
                         break;
                         case SDLK_RIGHT:
@@ -1121,7 +1123,9 @@ while(run==1)
                         case SDLK_x :
                             I.attack = 1;
                             printf("%d",I.attack);
+							test=1;
                         break;
+
 
                     }
 					break;
@@ -1209,26 +1213,15 @@ while(run==1)
 		if(SS_collision_parfaite_down(mask_side.img,hero.heroPos, B.camera.x,0)==1) 
 		{
 			hero.col_down=1;
-			if(I.jump=0)
-			{
-				hero.groundd=hero.heroPos.y+185;
-				hero.heroPos.y=hero.groundd-185;
-				
-			}
-			/*if(hero.heroPos.y>427-185)
-			{
-				hero.heroPos.y=427-185;
-			}*/
 		}
 		else
-		{
-			hero.col_down=0;
-			if(hero.heroPos.y>427-185)
-			{
-				hero.heroPos.y=427-185;
-			}
-		}
-        jumpHeroMvt(&hero, &I);
+		hero.col_down=0;
+
+        jumpHeroMvt(&hero, &I,&B);
+		if(hero.col_down==1 && I.jump==0)
+		perfect_placement_player_above_mask(mask_side.img,hero.heroPos, B.camera.x,B.camera.y,&hero);
+
+
 		hero.frame++;
 	//end update player 
 	//update SDC_background 

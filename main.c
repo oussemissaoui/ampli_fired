@@ -28,6 +28,7 @@
 #include "player_side_scrolling.h"
 #include "input.h"
 #include "arduino.h"
+#include "minimap.h"
 
 int main()
 {
@@ -106,6 +107,11 @@ int main()
 
 	//#########################--background_side_scro--###########//
 
+	//#########################--minimap--###########//
+	
+	minimap mini;
+
+	//#########################--minimap--###########//
 	
 	int vol_mus=5,vol_sfx=5;
     int count=0,counterimage=0,mousex,mousey,resized=0,maxresize_num=0;
@@ -246,7 +252,9 @@ SDL_Rect pos_msg,pos_msg1;
 msg=IMG_Load("loading_img/msg.png");
 msg1=IMG_Load("loading_img/msg1.png");
 int msg_state,msg1_state;
+
 initMask(&mask,&mask_side);
+init_map(&mini);
 //end test
 //screen_num=5;
 //animation
@@ -361,6 +369,8 @@ while(run==1)
 		{
 			SDL_BlitSurface(msg,NULL,screen,&pos_msg);
 		}
+		afficherminimap(mini,map, screen);
+
 		SDL_Flip(screen);
 	//end affichage
 		if(Joystick_function==1)
@@ -713,6 +723,7 @@ while(run==1)
 			screen_num=5;
 
 		}
+		MAJMinimap(hero.heroPos, &mini, map.pos_image_aff, 20); 
 		//printf(" Perso:%d---%d\n",perso.pos_image_init.x,perso.pos_image_init.y);
 		//printf(" BACKk:%d---%d\n",map.pos_image_aff.x,map.pos_image_aff.y);
 

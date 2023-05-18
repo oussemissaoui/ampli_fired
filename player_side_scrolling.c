@@ -307,12 +307,20 @@ void jumpHeroMvt(Hero *hero, Input *I,Background *B )
 	int Amp = -350;
 	float delta = -4 * Amp;
 	float x = (sqrt(delta) / 2);
-    
+    printf("CAMERA X : %d\n",B->camera.x);
 	if ((I->jump == 1 || I->jump == -1))
 	{
 		hero->VarX++;
         printf("val xx : %f\n",hero->VarX);
-        B->camera.x += (x * hero->direction/2);
+         if (( B->camera.x +(x * hero->direction/2) <8693 - 1280 ))
+        {
+            B->camera.x += (x * hero->direction/2);
+            if(B->camera.x >7194)
+            {
+                B->camera.x=7194;
+            }
+        }
+        
         //hero->Ground=hero->heroPos.y+198;
 	}
     

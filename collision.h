@@ -19,6 +19,8 @@ int SS_collision_parfaite_down(SDL_Surface *mask , SDL_Rect posjoueur , int xOff
 int SS_collision_green_zone(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset);
 int SS_collision_die_detect(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset);
 int perfect_placement_player_above_mask(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset,Hero *h);
+int SS_collision_store_enter(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset);
+
 
 
 

@@ -102,7 +102,7 @@ void afficher_Hero(Hero *h, SDL_Surface *screen)
     h->posVie2.w = 87;
     h->posVie2.h = 208;
   }
-   SDL_BlitSurface(h->vies,&h->posVie2,screen,&h->posVie1);
+   //SDL_BlitSurface(h->vies,&h->posVie2,screen,&h->posVie1);
    SDL_Color couleur = {255, 255, 255};
 
  
@@ -113,7 +113,7 @@ void afficher_Hero(Hero *h, SDL_Surface *screen)
   h->scores = TTF_RenderText_Blended(h->police, s, couleur);
 
   
-  SDL_BlitSurface(h->scores, NULL, screen, &(h->posScore));
+  //SDL_BlitSurface(h->scores, NULL, screen, &(h->posScore));
 }
 void idleAnimation(Hero *h)
 {
@@ -311,13 +311,21 @@ void jumpHeroMvt(Hero *hero, Input *I,Background *B )
 	if ((I->jump == 1 || I->jump == -1))
 	{
 		hero->VarX++;
-        printf("val xx : %f\n",hero->VarX);
-        B->camera.x += (x * hero->direction/2);
+   
+         if (( B->camera.x +(x * hero->direction/2) <8693 - 1280 ))
+        {
+            B->camera.x += (x * hero->direction/5);
+            if(B->camera.x >7194)
+            {
+                B->camera.x=7194;
+            }
+        }
+        
         //hero->Ground=hero->heroPos.y+198;
 	}
     
 	y = (int)((hero->VarX - x) * (hero->VarX - x) + Amp);
-    printf("y == %d\n",y);
+    
     if(y<=-340)
     {
         I->jump=-1;

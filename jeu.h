@@ -50,6 +50,8 @@ void play_music(Mix_Music *m,char musicpath[]);
 //intesection function 
 int mouseinter(SDL_Surface *s,int x,int y,int w,int h);
 int mouse_in_rect(int rect_x,int rect_y,int rect_w,int rect_h,int mousex,int mousey);
+int intersection_souris(SDL_Rect poscarre,int mousex,int mousey);
+
 
 //end of function of intersection
 

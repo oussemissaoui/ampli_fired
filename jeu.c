@@ -42,6 +42,17 @@ int mouse_in_rect(int rect_x,int rect_y,int rect_w,int rect_h,int mousex,int mou
         return 0; // if cursor doesn't intersect, return 0
     }
 }
+int intersection_souris(SDL_Rect poscarre,int mousex,int mousey)
+{
+	if((mousex>poscarre.x && mousex < poscarre.x+poscarre.w) && (mousey>poscarre.y && mousey<poscarre.y+poscarre.h) )
+	{
+		return 1;
+	}
+	else 
+    {
+    return 0;
+    }
+}
 
 liste init_start_tv(int nb_img,SDL_Surface *s,image *load[],int num_load)
 {

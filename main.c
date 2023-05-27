@@ -28,6 +28,8 @@
 #include "player_side_scrolling.h"
 #include "input.h"
 #include "arduino.h"
+#include "minimap.h"
+#include "phone.h"
 
 int main()
 {
@@ -37,6 +39,7 @@ int main()
              int bg_num=30,load_num=6,start_num=6,set_num=3,ext_num=3,extra_num=1,computer_img_num=40;
              int eff_set_num=4,mus_eff_num=13,sfx_eff_num=13,tv_eff_num=288,choice_num=3;
     int run=1,screen_num=0,last_screen=0;
+	int multiplayer_state=0;
 
 
 	//#########################--Computer--#######################//
@@ -86,7 +89,7 @@ int main()
 	//#########################--KeyBoard--########################//
 
 	//#########################--Joystick--########################//
-	int Joystick_function=1; // ON - OFF player chose from setting if he want to play with joystick or not 
+	int Joystick_function=0; // ON - OFF player chose from setting if he want to play with joystick or not 
 	ArduinoMaster ard_ms;
 	InitArduino(&ard_ms);
 	int fpressed=0; //detect pressed button same role as F key in jotstick
@@ -96,7 +99,7 @@ int main()
 
 	//#########################--multiplayer--########################//
 	personne perso2;
-	int multiplayer_state=1;
+	multiplayer_state=0;
 	int syncro=0;
 	//#########################--multiplayer--########################//
 	
@@ -106,14 +109,32 @@ int main()
 
 	//#########################--background_side_scro--###########//
 
+	//#########################--minimap--###########//
 	
+	minimap mini;
+
+	//#########################--minimap--###########//
+
+	//#########################--phone--###########//
+
+	phone ph;
+	
+	SDL_Rect spotify ={1011,291,59,57};
+    SDL_Rect sms ={1083,291,59,57};
+    SDL_Rect insta ={1160,291,59,57};
+    SDL_Rect d17 ={1083,367,59,57} ;
+    SDL_Rect home_button = {1084,664,58,19};
+
+	init_phone(&ph);
+
+	//#########################--phone--###########//
 	int vol_mus=5,vol_sfx=5;
     int count=0,counterimage=0,mousex,mousey,resized=0,maxresize_num=0;
     int i; //declaration des variable pour les boucle
 	
     image *loading[load_num],*bg[bg_num],*start[start_num],*setting[set_num],*exit[ext_num];
     image *eff_set[eff_set_num],*mus_eff[mus_eff_num],*sfx_eff[sfx_eff_num],*extra[extra_num],*exit_yes_no[choice_num];
-	background map,mask,mask_side;
+	background map,mask,mask_side,map_store,mask_store;
 
 	
 	
@@ -135,7 +156,7 @@ init_loading_img(loading,load_num);
 //init SDL---TTF
     TTF_Init();
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
-        if((screen=SDL_SetVideoMode(1280,720,32,SDL_HWSURFACE|SDL_RESIZABLE|SDL_DOUBLEBUF))==NULL)
+        if((screen=SDL_SetVideoMode(1280,720,32,SDL_HWSURFACE|SDL_DOUBLEBUF))==NULL)
             {
                  printf("Unable init Screen %s",SDL_GetError());
             }
@@ -241,12 +262,17 @@ knock=Mix_LoadWAV("mp3/knock.wav");
 
 //test 
 
-SDL_Surface *msg,*msg1;
+SDL_Surface *msg,*msg1,*msg_store;
 SDL_Rect pos_msg,pos_msg1;
 msg=IMG_Load("loading_img/msg.png");
 msg1=IMG_Load("loading_img/msg1.png");
-int msg_state,msg1_state;
+msg_store=IMG_Load("loading_img/msg_store.png");
+int msg_state,msg1_state,msg_store_state;
+
 initMask(&mask,&mask_side);
+initMask_store(&mask_store);
+init_map(&mini);
+initBack_store(&map_store);
 //end test
 //screen_num=5;
 //animation
@@ -288,7 +314,7 @@ while(run==1)
 				initBack(&map);
 				
 				initPerso(&perso);
-				if(multiplayer_state==0)
+				if(multiplayer_state==1)
 				{
 					initPerso(&perso2);
 					perso2.pos_image_init.x+=50;
@@ -355,12 +381,16 @@ while(run==1)
 		syncro=map.pos_image_aff.y;
 		
 		}
-
+		if(multiplayer_state==1)
 		afficherPerso(perso2,screen);
 		if(msg_state==1)
 		{
 			SDL_BlitSurface(msg,NULL,screen,&pos_msg);
 		}
+		afficherminimap(mini,map, screen);
+		//if(ph.phone_state==1)
+		aff_phone(&ph,screen);
+
 		SDL_Flip(screen);
 	//end affichage
 		if(Joystick_function==1)
@@ -448,6 +478,13 @@ while(run==1)
 						perso.move=0;
 						}
 			}
+
+
+			if(intersection_souris(spotify,mousex,mousey)==1 )
+            			{
+            			    
+							printf("hello there is interaction\n");
+            			}
 		if(SDL_PollEvent(&e))
 		{
 			switch(e.type)
@@ -568,8 +605,17 @@ while(run==1)
 						perso.move=0;
 						}
 					}
+					if(e.key.keysym.sym==SDLK_p)
+					{
+						if(ph.phone_state==1)
+						{
+							ph.phone_state=0;
+						}
+						else
+							ph.phone_state=1;
+					}
 					// player 2 
-					if(multiplayer_state==0)
+					if(multiplayer_state==1)
 					{
 						if(e.key.keysym.sym==SDLK_d ||e.key.keysym.sym==SDLK_q || e.key.keysym.sym==SDLK_z || e.key.keysym.sym==SDLK_s   )
 					{
@@ -609,7 +655,7 @@ while(run==1)
 				case SDL_MOUSEBUTTONDOWN :
 					if(e.button.button==SDL_BUTTON_RIGHT)
 					{
-						perso.move=2;
+						
 					}
 				break;
 				case SDL_MOUSEBUTTONUP :
@@ -624,7 +670,27 @@ while(run==1)
 			}
 
 		}
-		
+	//phone
+		if(ph.phone_state==1)
+		{
+			SDL_GetMouseState(&mousex,&mousey);
+        		if(intersection_souris(spotify,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=1;
+        		}
+        		if(intersection_souris(sms,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=2;
+        		}
+        		if(intersection_souris(insta,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=3;
+        		}
+        		if(intersection_souris(home_button,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=0;
+        		}
+		}
 	//collision
 		if(collision_parfaite_right(mask.img,perso.pos_image_init,0,map.pos_image_aff.y)==1){
 					 perso.colright=1;
@@ -713,9 +779,14 @@ while(run==1)
 			screen_num=5;
 
 		}
+		MAJMinimap(perso.pos_image_init, &mini, map.pos_image_aff, 20); 
+		MAJphone(&ph);
+		
 		//printf(" Perso:%d---%d\n",perso.pos_image_init.x,perso.pos_image_init.y);
 		//printf(" BACKk:%d---%d\n",map.pos_image_aff.x,map.pos_image_aff.y);
 
+		printf("player pos x: %d , pos y: %d \n",perso.pos_image_init.x,perso.pos_image_init.y);
+		printf("miniplayer x : %d , y %d \n",mini.positionminijoueur.x,mini.positionminijoueur.y);
 		
 
 
@@ -734,7 +805,15 @@ while(run==1)
 		
 			locate=SDL_GetMouseState(&mousex,&mousey);
 
-			SDL_BlitSurface(bg[counterimage]->scaled, NULL, screen, NULL);
+			if(last_screen==0)
+			{
+				SDL_BlitSurface(bg[counterimage]->scaled, NULL, screen, NULL);
+			}
+			if(last_screen==5)
+			{
+				aff_SDC_Background(&B, screen);
+				afficher_Hero(&hero,screen);
+			}
 			SDL_BlitSurface(eff_set[0]->scaled,NULL,screen,NULL);
 			SDL_BlitSurface(eff_set[1]->scaled,NULL,screen,NULL);
 			SDL_BlitSurface(mus_eff[vol_mus]->scaled,NULL,screen,NULL);
@@ -747,7 +826,7 @@ while(run==1)
 				SDL_BlitSurface(eff_set[3]->scaled,NULL,screen,NULL);
 				if(e.type==SDL_MOUSEBUTTONDOWN && e.button.button==SDL_BUTTON_LEFT)
 				{
-					screen_num=0;
+					screen_num=last_screen;
 					bg_num=30;
 					break;
 				}
@@ -1063,6 +1142,10 @@ while(run==1)
 			{
 				SDL_BlitSurface(msg1,NULL,screen,&pos_msg1);
 			}
+			if(msg_store_state==1)
+			{
+			SDL_BlitSurface(msg_store,NULL,screen,&pos_msg1);
+			}
 			
 			SDL_Flip(screen);
 			if(Joystick_function==1)
@@ -1151,8 +1234,15 @@ while(run==1)
                         case SDLK_x :
                             I.attack = 1;
                             printf("%d",I.attack);
+							if(test==0)
 							test=1;
+							else
+							test=0;
                         break;
+						case SDLK_ESCAPE :
+							screen_num=2;
+							last_screen=5;
+						break;
 
 
                     }
@@ -1205,6 +1295,22 @@ while(run==1)
 						
 					screen_num=1;
 					}
+					if(msg_store_state==1){
+			
+					perso.pos_image_init.x=627;
+					perso.pos_image_init.y=508;
+					map.pos_image_aff.x=0;
+					map.pos_image_aff.y=580;
+					//player_out_home_state=0;
+					etat_left=0;etat_right=0;etat_down=0;etat_up=0;
+					perso.direction_axe_y=0;
+					perso.direction_axe_x=0;
+					perso.last_direction=1;
+					perso.move=0;
+
+						
+					screen_num=6;
+					}
 					break;
 				}
 				
@@ -1226,7 +1332,7 @@ while(run==1)
         {
         runAnimation(&hero);
         }
-        else if((hero.direction ==1 || hero.direction ==-1)&& I.jump==1 && I.attack ==0)
+        else if((hero.direction ==1 || hero.direction ==-1)&& (I.jump==1 || I.jump==-1) && I.attack ==0)
         {
             jumpAnimation(&hero);
         }
@@ -1264,8 +1370,445 @@ while(run==1)
 	else
 	msg1_state=0;
 
+
+	if(SS_collision_store_enter(mask_side.img,hero.heroPos, B.camera.x,B.camera.y)==1)
+	{
+		pos_msg1.x=hero.heroPos.x-20;
+		pos_msg1.y=hero.heroPos.y-20;
+		hero.last_direction=
+		msg_store_state=1;
+		
+	}
+	else{
+		msg_store_state=0;
+	}
+
 	//end update background
 		
+
+		break;
+		case 6:
+		locate=SDL_GetMouseState(&mousex,&mousey);
+
+	//affichage
+		afficherBack(map_store,screen); //to edit map,screen
+		afficherPerso(perso,screen);
+		if(syncro!=map.pos_image_aff.y){
+		perso2.pos_image_init.y-=(map.pos_image_aff.y-syncro);
+		syncro=map.pos_image_aff.y;
+		
+		}
+		if(multiplayer_state==1)
+		afficherPerso(perso2,screen);
+		if(msg_state==1)
+		{
+			SDL_BlitSurface(msg,NULL,screen,&pos_msg);
+		}
+		//afficherminimap(mini,map, screen);
+		//if(ph.phone_state==1)
+		aff_phone(&ph,screen);
+
+		SDL_Flip(screen);
+	//end affichage
+		if(Joystick_function==1)
+		read_from_arduino(&ard_ms);
+		if(Joystick_function==1)
+			{
+				if(ArduinoKeyCheck(&ard_ms,"right_start")  )
+					{
+						etat_right=1;
+						perso.direction_axe_x=1;
+						perso.move=1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"left_start")  )
+					{
+						etat_left=1;
+						perso.direction_axe_x=-1;
+						perso.move=1;
+						
+					}
+				if(ArduinoKeyCheck(&ard_ms,"left_right_null") && (etat_right != 0 || etat_left != 0) )				
+					{
+						if(etat_right==1)
+            			perso.last_direction=1;
+						if(etat_left==1)
+						perso.last_direction=2;
+
+						etat_right=0;
+						etat_left=0;
+						perso.direction_axe_x =0;
+						
+					}
+				if(ArduinoKeyCheck(&ard_ms,"up_start")  )
+					{
+						etat_up=1;
+						perso.direction_axe_y=-1;
+						perso.move=1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"down_start")  )
+					{
+						etat_down=1;
+						perso.direction_axe_y=1;
+						perso.move=1;
+					}
+				if(ArduinoKeyCheck(&ard_ms,"up_down_null") && (etat_down != 0 || etat_up != 0) )
+					{
+						if(etat_down==1)
+            			perso.last_direction=3;
+						if(etat_up==1)
+						perso.last_direction=4;
+
+						etat_down=0;
+						etat_up=0;
+						perso.direction_axe_y=0;
+					}
+					/*if(ArduinoKeyCheck(&ard_ms,"fpressed")  )
+					{
+						fpressed=1;
+						if((fpressed ==1) && msg_state ==1 )
+					{
+						while(pc_state==0)
+						{
+							if(SDL_PollEvent(&e)){
+								switch(e.key.keysym.sym)
+								{
+									case 282:
+										pc_state=1;
+									break;
+								}
+							}
+							SDL_BlitSurface(pc_error.img,NULL,screen,NULL);
+							SDL_Flip(screen);
+						}
+						
+						if(pc==NULL)
+						pc=init_computer(computer_img_num,screen);
+						else
+						parcourir_with_Delay(pc,screen,150);
+						screen_num=4;
+						fpressed=0;
+						
+					}
+					}*/
+				if(etat_down ==0 && etat_up ==0 && etat_right ==0 && etat_left==0)
+						{
+						perso.move=0;
+						}
+			}
+
+
+			
+			if(SDL_PollEvent(&e))
+		{
+			switch(e.type)
+			{
+
+				case SDL_QUIT : screen_num=-1;run=0;
+ 					break;
+				case SDL_KEYDOWN :
+					if(e.key.keysym.sym==SDLK_ESCAPE)
+					{
+						screen_num=5;
+					}
+					if(e.key.keysym.sym==SDLK_RIGHT)
+					{
+						
+						etat_right=1;
+						perso.direction_axe_x=1;
+						perso.move=1;
+
+					}
+					if(e.key.keysym.sym==SDLK_LEFT)
+					{
+						etat_left=1;
+						perso.direction_axe_x=-1;
+						perso.move=1;
+						
+					}
+					if(e.key.keysym.sym==SDLK_DOWN)
+					{
+						etat_down=1;
+						perso.direction_axe_y=1;
+						perso.move=1;
+					}
+					if(e.key.keysym.sym==SDLK_UP)
+					{
+						etat_up=1;
+						perso.direction_axe_y=-1;
+						perso.move=1;
+					}
+					if(e.key.keysym.sym==SDLK_d)
+					{
+						
+						etat_right_p2=1;
+						perso2.direction_axe_x=1;
+						perso2.move=1;
+
+					}
+					if(e.key.keysym.sym==SDLK_q)
+					{
+						etat_left_p2=1;
+						perso2.direction_axe_x=-1;
+						perso2.move=1;
+						
+					}
+					if(e.key.keysym.sym==SDLK_s)
+					{
+						etat_down_p2=1;
+						perso2.direction_axe_y=1;
+						perso2.move=1;
+					}
+					if(e.key.keysym.sym==SDLK_z)
+					{
+						etat_up_p2=1;
+						perso2.direction_axe_y=-1;
+						perso2.move=1;
+					}
+					if((e.key.keysym.sym == SDLK_f || fpressed ==1) && msg_state ==1 )
+					{
+						while(pc_state==0)
+						{
+							if(SDL_PollEvent(&e)){
+								switch(e.key.keysym.sym)
+								{
+									case 282:
+										pc_state=1;
+									break;
+								}
+							}
+							SDL_BlitSurface(pc_error.img,NULL,screen,NULL);
+							SDL_Flip(screen);
+						}
+						
+						if(pc==NULL)
+						pc=init_computer(computer_img_num,screen);
+						else
+						parcourir_with_Delay(pc,screen,150);
+						screen_num=4;
+						fpressed=0;
+						
+					}
+				
+				break;
+				case SDL_KEYUP:
+					if(e.key.keysym.sym==SDLK_RIGHT ||e.key.keysym.sym==SDLK_LEFT || e.key.keysym.sym==SDLK_UP || e.key.keysym.sym==SDLK_DOWN   )
+					{
+					if(e.key.keysym.sym==SDLK_RIGHT)
+					{
+						etat_right=0;
+						perso.direction_axe_x =0;
+						perso.last_direction=1;
+					}
+					if(e.key.keysym.sym==SDLK_LEFT)
+					{
+						etat_left=0;
+						perso.direction_axe_x =0;
+						perso.last_direction=2;				
+					}
+					if(e.key.keysym.sym==SDLK_DOWN)
+					{
+						etat_down=0;
+						perso.direction_axe_y=0;
+						perso.last_direction=3;
+					}
+					if(e.key.keysym.sym==SDLK_UP)
+					{
+						etat_up=0;	
+						perso.direction_axe_y=0;
+						perso.last_direction=4;		
+					}  	
+						if(etat_down ==0 && etat_up ==0 && etat_right ==0 && etat_left==0)
+						{
+						perso.move=0;
+						}
+					}
+					if(e.key.keysym.sym==SDLK_p)
+					{
+						if(ph.phone_state==1)
+						{
+							ph.phone_state=0;
+						}
+						else
+							ph.phone_state=1;
+					}
+					// player 2 
+					if(multiplayer_state==1)
+					{
+						if(e.key.keysym.sym==SDLK_d ||e.key.keysym.sym==SDLK_q || e.key.keysym.sym==SDLK_z || e.key.keysym.sym==SDLK_s   )
+					{
+					if(e.key.keysym.sym==SDLK_d)
+					{
+						etat_right=0;
+						perso2.direction_axe_x =0;
+						perso2.last_direction=1;
+					}
+					if(e.key.keysym.sym==SDLK_q)
+					{
+						etat_left=0;
+						perso2.direction_axe_x =0;
+						perso2.last_direction=2;				
+					}
+					if(e.key.keysym.sym==SDLK_s)
+					{
+						etat_down=0;
+						perso2.direction_axe_y=0;
+						perso2.last_direction=3;
+					}
+					if(e.key.keysym.sym==SDLK_z)
+					{
+						etat_up=0;	
+						perso2.direction_axe_y=0;
+						perso2.last_direction=4;		
+					}  	
+						if(etat_down_p2 ==0 && etat_up_p2 ==0 && etat_right_p2 ==0 && etat_left_p2==0)
+						{
+						perso2.move=0;
+						}
+					}
+
+					}
+					
+				break;
+				case SDL_MOUSEBUTTONDOWN :
+					if(e.button.button==SDL_BUTTON_RIGHT)
+					{
+						
+					}
+				break;
+				case SDL_MOUSEBUTTONUP :
+					if(e.button.button==SDL_BUTTON_RIGHT)
+					{
+						perso.move=0;
+						perso.direction_axe_x=0;
+						perso.direction_axe_y=0;
+					}
+				break;
+				
+			}
+
+		}
+		if(ph.phone_state==1)
+		{
+			SDL_GetMouseState(&mousex,&mousey);
+        		if(intersection_souris(spotify,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=1;
+        		}
+        		if(intersection_souris(sms,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=2;
+        		}
+        		if(intersection_souris(insta,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=3;
+        		}
+        		if(intersection_souris(home_button,mousex,mousey)==1 && e.button.button==SDL_BUTTON_LEFT)
+        		{
+        		    ph.num_screen=0;
+        		}
+		}
+	//collision
+		if(collision_parfaite_right(mask_store.img,perso.pos_image_init,0,0)==1){
+					 perso.colright=1;
+					}
+		else{
+			perso.colright=0;
+		}
+		if(collision_parfaite_left(mask_store.img,perso.pos_image_init,0,0)==1){
+					 perso.colleft=1;
+					}
+		else{
+			perso.colleft=0;
+		}
+		if(collision_parfaite_down(mask_store.img,perso.pos_image_init,0,0)==1){
+					 perso.coldown=1;
+					}
+		else{
+			perso.coldown=0;
+		}
+		if(collision_parfaite_up(mask_store.img,perso.pos_image_init,0,0)==1){
+					 perso.colup=1;
+					}
+		else{
+			perso.colup=0;
+		}
+		/*if(collision_all_body(mask_store.img,perso.pos_image_init,0,map.pos_image_aff.y)==1)
+		{
+			//printf("press f to open computer");
+			msg_state=1;
+		}
+		else
+		{
+			msg_state=0;
+			
+		}
+		if(collision_out_home(mask.img,perso.pos_image_init,0,map.pos_image_aff.y)==1)
+		{
+			player_out_home_state=1; //not finished need add the condition when return home (player_out_home_state=0)
+		}*/
+
+	//end collision 
+	
+	//scrolling 
+
+		if(perso.pos_image_init.y>=720*3/4)
+		{
+			map.direction_axe_y=1;
+			printf("scrolling down : %d\n",map.direction_axe_y);
+		}
+		else if(perso.pos_image_init.y<=720*1/4)
+		{
+			map.direction_axe_y=-1;;
+			printf("scrolling up : %d\n",map.direction_axe_y);
+		}
+		else 
+		{
+			map.direction_axe_y=0;
+			//printf("pas scrolling : %d\n",map.direction_axe_y);
+		}
+		pos_msg.x=perso.pos_image_init.x;   // to review
+		pos_msg.y=perso.pos_image_init.y-50;
+
+	//end scrolling
+
+		movePerso(&perso);
+		//movePerso(&perso2);
+		/*if((perso.pos_image_init.y>=720*3/4 || perso.pos_image_init.y<=720*1/4) && map.pos_image_aff.x>=0 && map.pos_image_aff.x<=579)
+		{
+			
+			scrolling(&map,0, (perso.speed * perso.direction_axe_y));
+			perso.pos_image_init.y -= perso.speed * perso.direction_axe_y;
+		}*/
+
+		/*if(perso.pos_image_init.y<=720/4 && perso.direction_axe_y==-1)
+		{
+			scrolling(&map,0, (perso.speed * perso.direction_axe_y));
+			perso.pos_image_init.y -= perso.speed * perso.direction_axe_y;
+		}
+		else if (perso.pos_image_init.y>=720*3/4 && perso.direction_axe_y==1)
+		{
+			scrolling(&map,0, (perso.speed * perso.direction_axe_y));
+			perso.pos_image_init.y -= perso.speed * perso.direction_axe_y;
+		}
+		if(player_out_home_state==1)
+		{
+			screen_num=5;
+
+		}
+		MAJMinimap(perso.pos_image_init, &mini, map.pos_image_aff, 20); */
+		MAJphone(&ph);
+		
+		//printf(" Perso:%d---%d\n",perso.pos_image_init.x,perso.pos_image_init.y);
+		//printf(" BACKk:%d---%d\n",map.pos_image_aff.x,map.pos_image_aff.y);
+
+		printf("player pos x: %d , pos y: %d \n",perso.pos_image_init.x,perso.pos_image_init.y);
+		printf("miniplayer x : %d , y %d \n",mini.positionminijoueur.x,mini.positionminijoueur.y);
+		
+
+
+		animerPerso(&perso);
+		//animerPerso(&perso2);
+
 
 		break;
 

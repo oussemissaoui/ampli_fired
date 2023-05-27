@@ -22,6 +22,46 @@ void initBack(background * b)
             b->pos_image_aff.h=720;
 
 }
+void initBack_store(background * b)
+{
+            b->url="loading_img/map/map_store.png"; //map.png
+            b->img=IMG_Load(b->url);
+            if(b->img==NULL)
+            {
+                printf("error laoding map");
+            }
+            /*b->pos_image_aff.x=4349;
+            b->pos_image_aff.y=4605;
+            b->pos_image_aff.w=1280;
+            b->pos_image_aff.h=720;*/
+            b->pos_image_aff.x=0;
+            b->pos_image_aff.y=0;
+            b->pos_image_aff.w=1280;
+            b->pos_image_aff.h=720;
+
+}
+void initMask_store(background * b)
+{
+            b->url="loading_img/map/mask_store.png";
+            b->img=IMG_Load(b->url);
+            if(b->img==NULL)
+            {
+                printf("error laoding mask");
+            }
+            
+            b->pos_image_init.x=0;
+            b->pos_image_init.y=0;
+            b->pos_image_init.w=1280;
+            b->pos_image_init.h=720;
+
+            b->pos_image_aff.x=0;
+            b->pos_image_aff.y=0;
+            b->pos_image_aff.w=800;
+            b->pos_image_aff.h=336;
+
+           
+
+}
 void initMask(background * b,background * b1)
 {
             b->url="loading_img/map/mask1.png";

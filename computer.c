@@ -142,15 +142,10 @@ void move_window(computer *c,int window_in_drag,int *x,int *y)
     SDL_GetMouseState(&mousex,&mousey);
     //printf(" we are in function\n");
     
-       
-
-
          
             c->pos_image_init.x=(mousex- *x);
             c->pos_image_init.y=(mousey- *y); 
         
-        
-    
     
 
 }

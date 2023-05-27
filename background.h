@@ -18,6 +18,9 @@ void scrolling (background * b, int direction , int pas);
 /*void scrolling (SDL_Rect * b, int direction, int pas );
 void animerBack (background* b);*/
 
+void initMask_store(background * b);
+void initBack_store(background * b);
+
 
 
 #endif // BACKGROUND_H_INCLUDED

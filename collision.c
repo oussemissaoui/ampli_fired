@@ -490,3 +490,34 @@ printf("hello\nhello\n");
 
 return (collision);
 }
+
+int SS_collision_store_enter(SDL_Surface *mask , SDL_Rect posjoueur , int xOffset,int yOffset)
+{  SDL_Color col,colp;
+SDL_Rect pos;
+int collision = 0;
+int i,w,h;
+
+col.r=100;
+col.g=100;
+col.b=100;// cad : col c'est le couleur noir 
+
+w=0;
+h=0;
+
+/*-------coordonnes d point n°1-------*/
+pos.x = posjoueur.x +60;
+pos.y = posjoueur.y+198/2;
+
+
+
+
+
+    colp = GetPixel(mask,pos.x ,pos.y,xOffset,yOffset );
+    
+    if((col.r==colp.r) && (col.g == colp.g) && (col.b ==colp.b))
+    collision = 1;
+
+
+
+return (collision);
+}
